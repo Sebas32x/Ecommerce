@@ -16,7 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from tienda import views # Vistas de la app
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.home, name='home'), # Ruta vacía = Página de inicio
 ]

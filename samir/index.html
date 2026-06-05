@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, sans-serif;
+}
+
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+}
+
+.login-box{
+    width:350px;
+    background:white;
+    padding:40px;
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+.login-box h2{
+    text-align:center;
+    margin-bottom:30px;
+    color:#333;
+}
+
+.input-box{
+    margin-bottom:20px;
+}
+
+.input-box input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    outline:none;
+    transition:0.3s;
+}
+
+.input-box input:focus{
+    border-color:#4facfe;
+}
+
+.btn{
+    width:100%;
+    padding:12px;
+    background:#4facfe;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:16px;
+    transition:0.3s;
+}
+
+.btn:hover{
+    background:#2f8df7;
+}
+
+.extra{
+    text-align:center;
+    margin-top:15px;
+}
+
+.extra a{
+    text-decoration:none;
+    color:#4facfe;
+}
+</style>
+
+</head>
+<body>
+
+<div class="login-box">
+    <h2>Iniciar Sesión</h2>
+
+  <form action="pagina1.html">
+    <div class="input-box">
+        <input type="text" placeholder="Usuario" required>
+    </div>
+
+    <div class="input-box">
+        <input type="password" placeholder="Contraseña" required>
+    </div>
+
+    <button type="submit" class="btn">Ingresar</button>
+
+    <div class="extra">
+        <p>¿No tienes cuenta? <a href="registro.html">Registrarse</a></p>
+    </div>
+</form>
+</div>
+
+</body>
+</html>

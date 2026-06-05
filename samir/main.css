@@ -1,0 +1,50 @@
+:root{
+    --azul:#2563eb;
+    --amarillo:#facc15;
+    --gris:#f8fafc;
+    --oscuro:#1e293b;
+}
+
+body{
+    background-color: var(--gris);
+}
+
+.button-categoria button{
+    background-color: var(--azul);
+    color:white;
+    border:none;
+    padding:10px;
+    border-radius:10px;
+}
+
+.producto{
+    width:220px;
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+.producto-imagen{
+    width:100%;
+    height:200px;
+    object-fit:cover;
+}
+
+.producto-detalles{
+    padding:10px;
+}
+
+.producto-agregar{
+    width:100%;
+    padding:10px;
+    border:none;
+    background:var(--azul);
+    color:white;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.producto-agregar:hover{
+    background:#1d4ed8;
+} 

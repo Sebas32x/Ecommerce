@@ -21,4 +21,5 @@ from tienda import views # Vistas de la app
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'), # Ruta vacía = Página de inicio
+    path('pagina1/', views.pagina1, name="mostrador")
 ]

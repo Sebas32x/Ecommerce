@@ -1,6 +1,17 @@
 from django.db import models
 
 class Producto(models.Model):
+    CATEGORIA_OPCIONES = [
+        ("bebida", "Bebida"),
+        ("golosina", "Golosina"),
+        ("snack", "Snack"),
+    ]
+
+    categoria = models.CharField(
+        max_length=20,
+        choices=CATEGORIA_OPCIONES,
+        default="snack"
+    )
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField()
     precio = models.DecimalField(max_digits=10, decimal_places=2)

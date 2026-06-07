@@ -43,7 +43,7 @@
                 </li>
 
                 <li>
-                 <a class="button-menu" href="carrito.html">
+                 <a class="button-menu" href="{% url 'carrito' %}" class="btn btn-success">
     <i class="bi bi-cart"></i>
     Carrito
     <span class="numerito">0</span>
@@ -80,7 +80,7 @@
                 <div class="producto-detalles">
                     <h3 class="producto-nombre">{{ p.nombre }}</h3>
                     <p class="card-text text-muted">{{ p.descripcion }}</p>
-                    <p class="producto-precio">${{ p.precio }}</p>
+                    <p class="producto-precio">{{ p.precio }}$</p>
                     <p class="text-secondary small">Stock disponible: {{ p.stock }}</p>
                     <button class="producto-agregar">Agregar</button>
                 </div>
@@ -104,7 +104,7 @@
                 <div class="producto-detalles">
                     <h3 class="producto-nombre">{{ p.nombre }}</h3>
                     <p class="card-text text-muted">{{ p.descripcion }}</p>
-                    <p class="producto-precio">${{ p.precio }}</p>
+                    <p class="producto-precio">{{ p.precio }}</p>
                     <p class="text-secondary small">Stock disponible: {{ p.stock }}</p>
                     <button class="producto-agregar">Agregar</button>
                 </div>
@@ -126,7 +126,7 @@
                 <div class="producto-detalles">
                     <h3 class="producto-nombre">{{ p.nombre }}</h3>
                     <p class="card-text text-muted">{{ p.descripcion }}</p>
-                    <p class="producto-precio">${{ p.precio }}</p>
+                    <p class="producto-precio">{{ p.precio }}</p>
                     <p class="text-secondary small">Stock disponible: {{ p.stock }}</p>
                     <button class="producto-agregar">Agregar</button>
                 </div>

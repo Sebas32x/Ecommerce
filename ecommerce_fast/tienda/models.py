@@ -6,7 +6,7 @@ class Producto(models.Model):
         ("golosina", "Golosina"),
         ("snack", "Snack"),
     ]
-
+    
     categoria = models.CharField(
         max_length=20,
         choices=CATEGORIA_OPCIONES,

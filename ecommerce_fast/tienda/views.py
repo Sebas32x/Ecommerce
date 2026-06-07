@@ -16,3 +16,6 @@ def pagina1(request):
                                                    'bebidas'    : bebidas,
                                                    'snacks'      : snacks    })
     
+def carrito(request):
+    
+    return render(request, 'tienda/carrito.html')

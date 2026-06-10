@@ -24,28 +24,39 @@ class Producto(models.Model):
     def __str__(self):
         return self.nombre
 
-class User(models.Model):
-    nombreDeUsuario = models.CharField(max_length=40)
-    nombreYApellido = models.CharField(max_length=40)
+
+from django.contrib.auth.hashers import make_password, check_password
+class Usuario(models.Model):
+    nombre_de_usuario = models.CharField(max_length=40, unique=True)
+    correo = models.EmailField(max_length=320, unique=True)
+    nombre_y_apellido = models.CharField(max_length=100)
+
     CURSO_OPCIONES = [
-        ("Preceptor", "preceptor"),
-        ("Profesor", "profesor"),
-        ("Directivo", "directivo"),
-        
-        ("1-1"),("1-2"),("1-3"),
-        ("2-1"),("2-2"),("2-3"),
-        ("3-1"),("3-2"),("3-3"),
-        ("4-2"),("4-3"),("4-4"),
-        ("5-2"),("5-3"),
-        ("6-2"),("6-3"),
-        ("7-2"),("7-3"),
-        
-        ("X")
+        ("Preceptor", "Preceptor"),
+        ("Profesor", "Profesor"),
+        ("Directivo", "Directivo"),
+        ("1-1", "1-1"), ("1-2", "1-2"), ("1-3", "1-3"),
+        ("2-1", "2-1"), ("2-2", "2-2"), ("2-3", "2-3"),
+        ("3-1", "3-1"), ("3-2", "3-2"), ("3-3", "3-3"),
+        ("4-1", "4-1"), ("4-2", "4-2"), ("4-3", "4-3"), ("4-4", "4-4"),
+        ("5-1", "5-1"), ("5-2", "5-2"), ("5-3", "5-3"),
+        ("6-1", "6-1"), ("6-2", "6-2"), ("6-3", "6-3"),
+        ("7-1", "7-1"), ("7-2", "7-2"), ("7-3", "7-3"),
+        ("X", "Sin curso")
     ]
-    curso = models.CharField(
-        max_length=3,
-        choices=CURSO_OPCIONES,
-        default="X"
-    )
-    contraseña = models.CharField(max_length=64) #Obligatorio sha256
+    curso = models.CharField(max_length=20, choices=CURSO_OPCIONES, default="X")
+
+    contraseña = models.CharField(max_length=128)  # se guarda en hash
+
+    def set_password(self, raw_password):
+        """Guarda la contraseña en formato seguro (hash)."""
+        self.contraseña = make_password(raw_password)
+
+    def check_password(self, raw_password):
+        """Verifica la contraseña ingresada contra el hash guardado."""
+        return check_password(raw_password, self.contraseña)
+
+    def __str__(self):
+        return self.nombre_de_usuario
+
     

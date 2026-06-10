@@ -357,3 +357,8 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+ecommerce_fast/ecommerce_fast/__pycache__/urls.cpython-314.pyc
+ecommerce_fast/ecommerce_fast/__pycache__/urls.cpython-314.pyc
+ecommerce_fast/tienda/__pycache__/admin.cpython-314.pyc
+ecommerce_fast/tienda/__pycache__/views.cpython-314.pyc
+ecommerce_fast/tienda/__pycache__/admin.cpython-314.pyc

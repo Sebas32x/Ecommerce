@@ -40,7 +40,7 @@ class User(models.Model):
         ("6-2"),("6-3"),
         ("7-2"),("7-3"),
         
-        ("X")
+        ("X","X")
     ]
     curso = models.CharField(
         max_length=3,

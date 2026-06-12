@@ -11,23 +11,22 @@ botonesAgregar.forEach(boton => {
 
         const producto = boton.closest(".producto");
 
-        const nombre = producto.querySelector(".producto-nombre").textContent;
+        const idProducto = boton.dataset.id;
 
-        const precio = parseInt(
-            producto.querySelector(".producto-precio").textContent
-        );
-
-        carrito.push({
-            nombre: nombre,
-            precio: precio
+        fetch("/agregar_carrito/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id: idProducto
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            alert("Producto agregado");
+            actualizarNumerito();
         });
-
-        localStorage.setItem(
-            "carrito",
-            JSON.stringify(carrito)
-        );
-
-        actualizarNumerito();
 
     });
 

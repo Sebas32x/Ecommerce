@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+<body>
+    <h1>💳 Pago</h1>
+
+<h3>Resumen del carrito</h3>
+
+{% for item in items %}
+    <p>{{ item.producto.nombre }} x{{ item.cantidad }} - ${{ item.producto.precio }}</p>
+{% endfor %}
+
+<h1>Confirmar pago</h1>
+
+<h3>Total: ${{ total }}</h3>
+
+<form method="post" action="{% url 'finalizar_compra' %}">
+    {% csrf_token %}
+    <button type="submit">Confirmar compra</button>
+</form>
+
+<a href="{% url 'carrito' %}">Volver</a>
+</body>
+</head>
+</html>

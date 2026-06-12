@@ -16,14 +16,23 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from tienda import views # Vistas de la app
+from tienda import views
 
 urlpatterns = [
+    path('carrito/cantidad/', views.carrito_cantidad, name='carrito_cantidad'),
     path('admin/', admin.site.urls),
-    path('login', views.login, name='login'), 
-    path('', views.pagina1, name="mostrador"),# Ruta vacía = Página de inicio
-    path('pagina1/', views.pagina1, name="mostrador"),
-    path('carrito/', views.carrito, name="carrito"),
+    path('', views.pagina1, name="mostrador"),
+    path('pagina1/', views.pagina1),
+    path('carrito/', views.ver_carrito, name='carrito'),
+    path('login/', views.login, name='login'),
     path('logout/', views.logout_cliente, name='logout'),
-    
+    path('registro/', views.registro, name='registro'),
+    path('finalizar_compra/', views.finalizar_compra, name='finalizar_compra'),
+    path('pago/', views.pago, name='pago'),
+    path('agregar_carrito/', views.agregar_carrito, name='agregar_carrito')
 ]
+#path(
+ #   'descontar_stock/<int:producto_id>/',
+  #  views.descontar_stock,
+   # name='descontar_stock'
+#),

@@ -5,16 +5,16 @@
     --oscuro:#1e293b;
 }
 
-body{
+ /*body{
     background-color: var(--gris);
-}
+}*/
 
-.button-categoria button{
+.button-categoria {
     background-color: var(--azul);
-    color:white;
-    border:none;
-    padding:10px;
-    border-radius:10px;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
 }
 
 .producto{
@@ -50,10 +50,11 @@ body{
 } 
 .contenedor-bebidas,
 .contenedor-snacks,
-.contenedor-golosinas{
-    display:flex;
-    flex-wrap:wrap;
-    gap:20px;
+.contenedor-golosinas,
+#titulo-bebidas,
+#titulo-snacks,
+#titulo-golosinas {
+    display: none;
 }
 *{
     margin:0;

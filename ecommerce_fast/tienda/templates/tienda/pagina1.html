@@ -16,6 +16,7 @@
     <aside>
         <header>
             <h1 class="logo">Kiosco Escolar</h1>
+            
         </header>
 
         <nav>
@@ -44,12 +45,12 @@
 
                 <li>
                  <a class="button-menu" href="{% url 'carrito' %}" class="btn btn-success">
-    <i class="bi bi-cart"></i>
-    Carrito
-    <span class="numerito">0</span>
-</a>
+                   <i class="bi bi-cart"></i>Carrito <span class="numerito">0</span>
+                 </a>
+                 </li>
+                 <li> <a class="button-menu" href="{% url 'logout' %}">
+                    <i class="bi bi-box-arrow-right"></i>Cerrar sesión</a>
                 </li>
-
                 <li>
                     <a class="button-menu" href="admin.html">
                         <button>Administrador</button>
@@ -63,7 +64,13 @@
             <p class="texto-footer">© Kiosco Escolar</p>
         </footer>
     </aside>
-
+{% if messages %}
+    {% for message in messages %}
+        <div style="background:#22c55e;color:white;padding:10px;border-radius:8px;margin-bottom:10px;">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
     <main>
 
         
@@ -82,7 +89,7 @@
                     <p class="card-text text-muted">{{ p.descripcion }}</p>
                     <p class="producto-precio">{{ p.precio }}$</p>
                     <p class="text-secondary small">Stock disponible: {{ p.stock }}</p>
-                    <button class="producto-agregar">Agregar</button>
+                    <button class="producto-agregar" data-id="{{ p.id }}">Agregar</button>
                 </div>
             </div>
             {% empty %}
@@ -106,7 +113,7 @@
                     <p class="card-text text-muted">{{ p.descripcion }}</p>
                     <p class="producto-precio">{{ p.precio }}</p>
                     <p class="text-secondary small">Stock disponible: {{ p.stock }}</p>
-                    <button class="producto-agregar">Agregar</button>
+                    <button class="producto-agregar" data-id="{{ p.id }}">Agregar</button>
                 </div>
             </div>
             {% empty %}
@@ -128,7 +135,7 @@
                     <p class="card-text text-muted">{{ p.descripcion }}</p>
                     <p class="producto-precio">{{ p.precio }}</p>
                     <p class="text-secondary small">Stock disponible: {{ p.stock }}</p>
-                    <button class="producto-agregar">Agregar</button>
+                    <button class="producto-agregar" data-id="{{ p.id }}">Agregar</button>
                 </div>
             </div>
             {% empty %}
@@ -138,7 +145,116 @@
 
 </div>
 
-<script src="{% static 'tienda/main.js' %}"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const numerito = document.querySelector(".numerito");
+
+    // =========================
+    // CARRO CANTIDAD
+    // =========================
+    function actualizarNumerito() {
+        fetch("/carrito/cantidad/")
+            .then(res => res.json())
+            .then(data => {
+                numerito.textContent = data.cantidad;
+            });
+    }
+
+    // =========================
+    // OCULTAR TODO
+    // =========================
+    function ocultarTodo() {
+        document.getElementById("bebidas").style.display = "none";
+        document.getElementById("snacks").style.display = "none";
+        document.getElementById("golosinas").style.display = "none";
+
+        document.getElementById("titulo-bebidas").style.display = "none";
+        document.getElementById("titulo-snacks").style.display = "none";
+        document.getElementById("titulo-golosinas").style.display = "none";
+    }
+
+    // =========================
+    // MOSTRAR SECCIÓN
+    // =========================
+    function mostrar(id, tituloId) {
+        ocultarTodo();
+
+        const contenedor = document.getElementById(id);
+        const titulo = document.getElementById(tituloId);
+
+        contenedor.style.display = "flex";
+        titulo.style.display = "block";
+    }
+
+    // =========================
+    // BOTONES CATEGORÍA
+    // =========================
+    document.getElementById("btn-bebidas").addEventListener("click", () => {
+        mostrar("bebidas", "titulo-bebidas");
+    });
+
+    document.getElementById("btn-snacks").addEventListener("click", () => {
+        mostrar("snacks", "titulo-snacks");
+    });
+
+    document.getElementById("btn-golosinas").addEventListener("click", () => {
+        mostrar("golosinas", "titulo-golosinas");
+    });
+
+    // =========================
+    // AGREGAR PRODUCTOS
+    // =========================
+    document.querySelectorAll(".producto-agregar").forEach(boton => {
+
+        boton.addEventListener("click", () => {
+
+            const idProducto = boton.dataset.id;
+
+           fetch("/agregar_carrito/", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCookie("csrftoken")
+    },
+    body: JSON.stringify({ id: idProducto })
+})
+.then(res => res.json())
+.then(data => {
+    alert("Producto agregado");
+    actualizarNumerito();
+});
+
+        });
+
+    });
+
+    // =========================
+    // INICIO
+    // =========================
+    actualizarNumerito();
+    mostrar("bebidas", "titulo-bebidas");
+
+});
+function getCookie(name) {
+    let cookieValue = null;
+
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+
+    return cookieValue;
+}
+</script>
 
 </body>
 </html>

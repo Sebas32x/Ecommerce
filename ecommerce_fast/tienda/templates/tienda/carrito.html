@@ -16,51 +16,17 @@ h1{
     text-align: center;
 }
 
-#lista-carrito{
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    margin-top: 20px;
-}
-
 .item{
+    background: white;
     padding: 10px;
-    border-bottom: 1px solid #ddd;
+    margin-top: 10px;
+    border-radius: 10px;
 }
 
 .total{
     margin-top: 20px;
     font-weight: bold;
     font-size: 20px;
-}
-
-button{
-    padding: 10px;
-    margin-top: 20px;
-    cursor: pointer;
-}
-#vaciar{
-    background-color: #dc2626;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 12px 20px;
-}
-
-#vaciar:hover{
-    background-color: #b91c1c;
-}
-#finalizar{
-    background-color: #16a34a;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 12px 20px;
-    margin-left: 10px;
-}
-
-#finalizar:hover{
-    background-color: #15803d;
 }
 </style>
 
@@ -69,61 +35,20 @@ button{
 
 <h1>🛒 Mi Carrito</h1>
 
-<div id="lista-carrito"></div>
+{% for item in items %}
+    <div class="item">
+        {{ item.producto.nombre }} x{{ item.cantidad }} - ${{ item.producto.precio }}
+    </div>
+{% empty %}
+    <p>El carrito está vacío.</p>
+{% endfor %}
 
-<button id="vaciar">Vaciar carrito</button>
-<button id="finalizar">Finalizar compra</button>
-<script>
+<h3 class="total">Total: ${{ total }}</h3>
 
-const lista = document.getElementById("lista-carrito");
-let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-
-let total = 0;
-
-if(carrito.length === 0){
-
-    lista.innerHTML = "<p>El carrito está vacío.</p>";
-
-}else{
-
-    carrito.forEach((producto,index) => {
-
-        total += producto.precio;
-
-        lista.innerHTML += `
-            <div class="item">
-                ${producto.nombre} - $${producto.precio}
-            </div>
-        `;
-    });
-
-    lista.innerHTML += `
-        <div class="total">
-            Total a pagar: $${total}
-        </div>
-    `;
-}
-
-document.getElementById("vaciar").addEventListener("click", () => {
-
-    localStorage.removeItem("carrito");
-
-    location.reload();
-
-});
-document.getElementById("finalizar").addEventListener("click", () => {
-
-    alert("¡Compra realizada con éxito!");
-
-    localStorage.removeItem("carrito");
-
-    location.reload();
-
-});
-
-</script>
-
-</script>
-
+<!-- BOTÓN FINAL DE PAGO -->
+<form method="post" action="{% url 'finalizar_compra' %}">
+    {% csrf_token %}
+    <button type="submit">Pagar</button>
+</form>
 </body>
 </html>

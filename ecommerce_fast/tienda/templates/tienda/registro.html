@@ -4,7 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Registro</title>
-
+{% if error %}
+<p style="color:red; text-align:center;">
+    {{ error }}
+</p>
+{% endif %}
 <style>
 *{
     margin:0;
@@ -65,21 +69,21 @@ button{
     <h2>Registro de Usuario</h2>
 
     <form id="formRegistro" method="post">
+     {% csrf_token %}
+     <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
 
-        <input type="text" id="nombre" placeholder="Npython manage.py shellombre" required>
+     <input type="text" id="apellido" name="apellido" placeholder="Apellido" required>
 
-        <input type="text" id="apellido" placeholder="Apellido" required>
+     <input type="text" id="curso" name="curso" placeholder="Curso" required>
 
-        <input type="text" id="curso" placeholder="Curso" required>
+     <input type="text" id="usuario" name="usuario" placeholder="Usuario" required>
 
-        <input type="text" id="usuario" placeholder="Usuario" required>
-
-        <input type="password" id="password" placeholder="Contraseña" required>
+     <input type="password" id="password" name="password" placeholder="Contraseña" required>
 
         <button type="submit">Registrarse</button>
 
         <div class="extra">
-            <p><a href="login.html">Volver al Login</a></p>
+            <p><a href="{% url 'login' %}">Volver al Login</a></p>
         </div>
 
     </form>

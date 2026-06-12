@@ -32,20 +32,37 @@ class Usuario(models.Model):
     nombre_y_apellido = models.CharField(max_length=100)
 
     CURSO_OPCIONES = [
-        ("Preceptor", "preceptor"),
-        ("Profesor", "profesor"),
-        ("Directivo", "directivo"),
-        
-        ("1-1"),("1-2"),("1-3"),
-        ("2-1"),("2-2"),("2-3"),
-        ("3-1"),("3-2"),("3-3"),
-        ("4-2"),("4-3"),("4-4"),
-        ("5-2"),("5-3"),
-        ("6-2"),("6-3"),
-        ("7-2"),("7-3"),
-        
-        ("X","X"),
-    ]
+    ("Preceptor", "Preceptor"),
+    ("Profesor", "Profesor"),
+    ("Directivo", "Directivo"),
+
+    ("1-1", "1-1"),
+    ("1-2", "1-2"),
+    ("1-3", "1-3"),
+
+    ("2-1", "2-1"),
+    ("2-2", "2-2"),
+    ("2-3", "2-3"),
+
+    ("3-1", "3-1"),
+    ("3-2", "3-2"),
+    ("3-3", "3-3"),
+
+    ("4-2", "4-2"),
+    ("4-3", "4-3"),
+    ("4-4", "4-4"),
+
+    ("5-2", "5-2"),
+    ("5-3", "5-3"),
+
+    ("6-2", "6-2"),
+    ("6-3", "6-3"),
+
+    ("7-2", "7-2"),
+    ("7-3", "7-3"),
+
+    ("X", "X"),
+]
     curso = models.CharField(max_length=20, choices=CURSO_OPCIONES, default="X")
 
     contraseña = models.CharField(max_length=128)  # se guarda en hash
@@ -61,4 +78,10 @@ class Usuario(models.Model):
     def __str__(self):
         return self.nombre_de_usuario
 
-    
+class CarritoItem(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cantidad = models.IntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.usuario.nombre_de_usuario} - {self.producto.nombre} x{self.cantidad}"

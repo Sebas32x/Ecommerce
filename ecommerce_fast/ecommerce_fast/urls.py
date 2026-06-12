@@ -20,7 +20,10 @@ from tienda import views # Vistas de la app
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'), # Ruta vacía = Página de inicio
+    path('login', views.login, name='login'), 
+    path('', views.pagina1, name="mostrador"),# Ruta vacía = Página de inicio
     path('pagina1/', views.pagina1, name="mostrador"),
-    path('carrito/', views.carrito, name="carrito")
+    path('carrito/', views.carrito, name="carrito"),
+    path('logout/', views.logout_cliente, name='logout'),
+    
 ]

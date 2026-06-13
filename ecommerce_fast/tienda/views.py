@@ -1,4 +1,7 @@
 import json
+from datetime import datetime
+from reportlab.pdfgen import canvas
+from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
@@ -6,6 +9,7 @@ from .models import Producto, Usuario
 from .models import CarritoItem
 from django.contrib import messages
 from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404
 
 def verificar_sesion(request):
     if 'cliente_id' not in request.session:
@@ -59,27 +63,7 @@ def home(request):
 
 
 @csrf_exempt
-def finalizar_compra(request):
 
-    verificar = verificar_sesion(request)
-    if verificar:
-        return verificar
-
-    usuario = Usuario.objects.get(id=request.session['cliente_id'])
-    items = CarritoItem.objects.filter(usuario=usuario)
-
-    for item in items:
-        producto = item.producto
-
-        if producto.stock < item.cantidad:
-            return redirect("carrito")
-
-        producto.stock -= item.cantidad
-        producto.save()
-
-    items.delete()
-
-    return redirect("mostrador")
 
 def login(request):
 
@@ -222,17 +206,66 @@ def finalizar_compra(request):
         usuario = Usuario.objects.get(id=request.session['cliente_id'])
         items = CarritoItem.objects.filter(usuario=usuario)
 
+        # Verificar stock
         for item in items:
             producto = item.producto
 
             if producto.stock < item.cantidad:
                 return redirect("carrito")
 
+        # Descontar stock
+        total = 0
+
+        for item in items:
+            producto = item.producto
             producto.stock -= item.cantidad
             producto.save()
 
+            total += item.producto.precio * item.cantidad
+
+        # Crear PDF
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="factura.pdf"'
+
+        pdf = canvas.Canvas(response)
+
+        pdf.drawString(100, 800, "FACTURA - KIOSCO ESCOLAR")
+        pdf.drawString(100, 780, f"Cliente: {usuario.nombre_de_usuario}")
+        pdf.drawString(100, 760, f"Curso: {usuario.curso}")
+        pdf.drawString( 100, 740, f"Fecha: {datetime.now().strftime('%d/%m/%Y %H:%M')}"
+)
+
+        y = 720
+
+        for item in items:
+            pdf.drawString(
+                100,
+                y,
+                f"{item.producto.nombre} x{item.cantidad} - ${item.producto.precio}"
+            )
+            y -= 20
+
+        pdf.drawString(100, y - 20, f"TOTAL: ${total}")
+
+        pdf.save()
+
+        # Vaciar carrito
         items.delete()
 
-        return redirect("mostrador")
+        return response
+
+    return redirect("carrito")
+def eliminar_del_carrito(request, item_id):
+
+    if 'cliente_id' not in request.session:
+        return redirect("login")
+
+    item = get_object_or_404(CarritoItem, id=item_id)
+
+    if item.cantidad > 1:
+        item.cantidad -= 1
+        item.save()
+    else:
+        item.delete()
 
     return redirect("carrito")
